@@ -6,6 +6,7 @@ import logging
 import re
 import time
 from notion_client import Client
+print(f"Notion client version: {notion_client.__version__}")
 import requests
 from requests.utils import cookiejar_from_dict
 from http.cookies import SimpleCookie
@@ -19,6 +20,22 @@ WEREAD_CHAPTER_INFO = "https://i.weread.qq.com/book/chapterInfos"
 WEREAD_READ_INFO_URL = "https://i.weread.qq.com/book/readinfo"
 WEREAD_REVIEW_LIST_URL = "https://i.weread.qq.com/review/list"
 WEREAD_BOOK_INFO = "https://i.weread.qq.com/book/info"
+
+# 然后修改客户端初始化
+client = Client(
+    auth=notion_token,
+    log_level=logging.ERROR
+)
+
+# 测试连接
+try:
+    # 添加这个测试
+    test_response = client.databases.retrieve(database_id=database_id)
+    print(f"✅ Notion连接成功，数据库: {test_response['title']}")
+except Exception as e:
+    print(f"❌ Notion连接失败: {e}")
+    print("请检查: 1. Notion Token 2. Database ID 3. Notion客户端版本")
+    sys.exit(1)
 
 
 def parse_cookie_string(cookie_string):
