@@ -5,7 +5,10 @@ import json
 import logging
 import re
 import time
+import sys
+import traceback
 from notion_client import Client
+import notion_client
 print(f"Notion client version: {notion_client.__version__}")
 import requests
 from requests.utils import cookiejar_from_dict
