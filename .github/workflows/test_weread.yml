@@ -1,0 +1,20 @@
+name: Test WeRead Cookie
+
+on:
+  workflow_dispatch:  # 手动触发
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check cookie length
+        run: |
+          echo "Cookie length: ${#WEREAD_COOKIE}"
+          echo "First 50 chars: ${WEREAD_COOKIE:0:50}"
+        env:
+          WEREAD_COOKIE: ${{ secrets.WEREAD_COOKIE }}
+
+      - name: Test WeRead API with Cookie
+        run: |
+          curl -v "https://i.weread.qq.com/user/notebooks" \
+            -H "cookie: ${{ secrets.WEREAD_COOKIE }}"
